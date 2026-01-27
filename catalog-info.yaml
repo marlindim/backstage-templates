@@ -1,8 +1,10 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{ values.name }}
+  name: {{ values.name }}
+  description: Demo service created from Backstage template
 spec:
   type: service
   lifecycle: experimental
-  owner: DevOps
+  owner: devops
+
