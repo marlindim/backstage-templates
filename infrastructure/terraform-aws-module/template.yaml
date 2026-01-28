@@ -1,0 +1,102 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: terraform-aws-module
+  title: AWS Terraform Module
+  description: Create a reusable Terraform module for AWS infrastructure
+  tags:
+    - terraform
+    - infrastructure
+    - aws
+    - iac
+  annotations:
+    backstage.io/template-category: Infrastructure
+
+spec:
+  owner: group:default/DevOps
+  type: infrastructure
+
+  parameters:
+    - title: Module Information
+      required:
+        - name
+        - description
+        - aws_resource
+      properties:
+        name:
+          title: Module Name
+          type: string
+          description: Name of the Terraform module (e.g., vpc, s3-bucket)
+          pattern: '^[a-z][a-z0-9-]*$'
+        
+        description:
+          title: Description
+          type: string
+          description: What does this module create?
+        
+        aws_resource:
+          title: AWS Resource Type
+          type: string
+          enum:
+            - VPC
+            - S3 Bucket
+            - EC2 Instance
+            - RDS Database
+            - Lambda Function
+            - ECS Service
+          description: Primary AWS resource this module manages
+        
+        terraform_version:
+          title: Terraform Version
+          type: string
+          enum:
+            - "1.6"
+            - "1.5"
+            - "1.4"
+          default: "1.6"
+
+    - title: Repository
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch
+      name: Fetch Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          aws_resource: ${{ parameters.aws_resource }}
+          terraform_version: ${{ parameters.terraform_version }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
+
+    - id: register
+      name: Register in Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in Backstage
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
