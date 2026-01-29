@@ -1,0 +1,3 @@
+site_name: React App Documentation
+nav:
+  - Home: index.md

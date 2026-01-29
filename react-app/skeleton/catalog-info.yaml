@@ -6,7 +6,9 @@ metadata:
   annotations:
     github.com/project-slug: ${{ values.destination.owner }}/${{ values.destination.repo }}
     backstage.io/github-actions-id: ${{ values.destination.owner }}/${{ values.destination.repo }}
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: website
   lifecycle: experimental
   owner: ${{ values.owner }}
+
