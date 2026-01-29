@@ -6,6 +6,7 @@ metadata:
   annotations:
     github.com/project-slug: ${{ values.destination.owner }}/${{ values.destination.repo }}
     backstage.io/github-actions-id: ${{ values.destination.owner }}/${{ values.destination.repo }}
+    backstage.io/techdocs-ref: dir:.
   tags:
     - terraform
     - infrastructure
@@ -13,4 +14,4 @@ metadata:
 spec:
   type: infrastructure
   lifecycle: experimental
-  owner: group:default/DevOps
+  owner: ${{ values.owner }}
