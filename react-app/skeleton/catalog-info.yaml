@@ -4,8 +4,8 @@ metadata:
   name: ${{ values.name }}
   description: ${{ values.description }}
   annotations:
-    github.com/project-slug: ${{ values.destination.owner }}/${{ values.destination.repo }}
-    backstage.io/github-actions-id: ${{ values.destination.owner }}/${{ values.destination.repo }}
+    github.com/project-slug: marlindim/${{values.name}}
+    backstage.io/github-actions-id: marlindim/${{values.name}}
     backstage.io/techdocs-ref: dir:.
 spec:
   type: website
