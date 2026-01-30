@@ -11,23 +11,24 @@ metadata:
     - iac
   annotations:
     backstage.io/template-category: Infrastructure
-
 spec:
   owner: group:default/DevOps
   type: infrastructure
-
+  
   parameters:
     - title: Module Information
       required:
         - name
         - description
         - aws_resource
+        - owner
       properties:
         name:
           title: Module Name
           type: string
           description: Name of the Terraform module (e.g., vpc, s3-bucket)
           pattern: '^[a-z][a-z0-9-]*$'
+          ui:autofocus: true
         
         description:
           title: Description
@@ -54,7 +55,17 @@ spec:
             - "1.5"
             - "1.4"
           default: "1.6"
-
+          description: Terraform version constraint
+        
+        owner:
+          title: Owner
+          type: string
+          description: Owner of this Terraform module
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: [Group, User]
+    
     - title: Repository
       required:
         - repoUrl
@@ -66,7 +77,9 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-
+            allowedOwners:
+              - marlindim
+  
   steps:
     - id: fetch
       name: Fetch Template
@@ -78,21 +91,24 @@ spec:
           description: ${{ parameters.description }}
           aws_resource: ${{ parameters.aws_resource }}
           terraform_version: ${{ parameters.terraform_version }}
-
+          owner: ${{ parameters.owner }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+    
     - id: publish
       name: Publish to GitHub
       action: publish:github
       input:
         repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
-
+        description: ${{ parameters.description }}
+    
     - id: register
       name: Register in Catalog
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
-
+  
   output:
     links:
       - title: Repository
