@@ -15,7 +15,7 @@ metadata:
 spec:
   type: service
   lifecycle: experimental
-  owner: ${{ values.owner }}
+  owner: ${{ values.owner | default("group:default/DevOps") }}
   providesApis:
     - ${{ values.name }}-api
 ---
@@ -27,7 +27,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: ${{ values.owner }}
+  owner: ${{ values.owner | default("group:default/DevOps") }}
   definition: |
     openapi: 3.0.0
     info:
