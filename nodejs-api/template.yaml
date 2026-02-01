@@ -12,7 +12,7 @@ metadata:
     - backend
     - recommended
 spec:
-  owner: group:default/devops
+  owner: group:default/DevOps
   type: service
 
   parameters:
