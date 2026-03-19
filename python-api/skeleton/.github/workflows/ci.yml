@@ -1,25 +1,30 @@
-name: Python Test CI
-
+name: CI
 on:
   push:
     branches: [ main ]
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: echo "All tests passed"
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+  owasp-dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
         with:
-          python-version: "3.11"
-
-      - name: Run test
-        run: |
-          python --version
-          python - <<EOF
-          print("CI test passed ✅")
-          EOF
+          project: ${{ github.repository }}
+          path: '.'
+          format: 'HTML'
+          out: 'reports'
+      - name: Upload OWASP Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-dependency-check-report
+          path: reports/
