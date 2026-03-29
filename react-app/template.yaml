@@ -49,8 +49,11 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+              - gitlab.com
             allowedOwners:
               - marlindim
+              - marlindi
+
 
   steps:
     - id: fetch

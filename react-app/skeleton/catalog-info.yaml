@@ -5,10 +5,10 @@ metadata:
   description: ${{ values.description }}
   annotations:
     github.com/project-slug: ${{ values.destination.owner }}/${{ values.destination.repo }}
-    backstage.io/github-actions-id: ${{ values.destination.owner }}/${{ values.destination.repo }}
     backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: ${{ values.name }}
+    backstage.io/kubernetes-namespace: ${{ values.namespace | default("default") }}
 spec:
   type: website
   lifecycle: experimental
   owner: ${{ values.owner }}
-

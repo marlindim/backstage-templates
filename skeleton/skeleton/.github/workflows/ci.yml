@@ -3,6 +3,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,6 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run tests
         run: echo "All tests passed"
+
   owasp-dependency-check:
     runs-on: ubuntu-latest
     permissions:
