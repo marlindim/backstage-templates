@@ -9,6 +9,9 @@ metadata:
     snyk.io/org-name: marlindim
     snyk.io/project-ids: ${{ values.name }}
     owasp.org/dependency-check-report: https://${{ values.destination.owner }}.github.io/${{ values.destination.repo }}/owasp/dependency-check-report.html
+    snyk.io/org-name: marlindim
+    snyk.io/project-ids: ${{ values.name }}
+    owasp.org/dependency-check-report: https://${{ values.destination.owner }}.github.io/${{ values.destination.repo }}/owasp/dependency-check-report.html
     backstage.io/kubernetes-id: ${{ values.name }}
     backstage.io/kubernetes-namespace: ${{ values.namespace | default("default") }}
 spec:
