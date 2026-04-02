@@ -15,11 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      administration: write
     steps:
       - uses: actions/checkout@v4
       - name: Set repo name
         id: repo
         run: {% raw %}echo "name=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT{% endraw %}
+      - name: Enable GitHub Pages
+        run: |
+          {% raw %}curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pages \
+            -d '{"source":{"branch":"gh-pages","path":"/"}}'{% endraw %}
+        continue-on-error: true
       - name: OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
         with:
