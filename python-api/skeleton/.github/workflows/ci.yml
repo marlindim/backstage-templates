@@ -17,12 +17,13 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      - name: Set repo name
+        id: repo
+        run: echo "name=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
       - name: OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
-        env:
-          REPO_NAME: ${{ github.event.repository.name || github.repository }}
         with:
-          project: ${{ github.event.repository.name || github.repository }}
+          project: ${{ steps.repo.outputs.name }}
           path: '.'
           format: 'HTML'
           out: 'reports'
