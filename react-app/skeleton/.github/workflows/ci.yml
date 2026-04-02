@@ -16,7 +16,6 @@ jobs:
     permissions:
       contents: write
       pages: write
-      administration: write
     steps:
       - uses: actions/checkout@v4
       - name: Set repo name
