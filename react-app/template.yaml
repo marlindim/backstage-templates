@@ -10,7 +10,7 @@ metadata:
     - vite
     - recommended
 spec:
-  owner: group:default/DevOps
+  owner: group:default/devops
   type: website
 
   parameters:
